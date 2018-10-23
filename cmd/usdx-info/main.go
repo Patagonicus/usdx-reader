@@ -23,7 +23,7 @@ func main() {
 	}
 	defer f.Close()
 
-	song, err := usdx.NewReader(l).Read(f, "", "")
+	song, warnings, err := usdx.NewReader(l).Read(f, "", "")
 	if err != nil {
 		l.Fatal("failed to read file",
 			zap.String("path", os.Args[1]),
@@ -33,5 +33,6 @@ func main() {
 
 	l.Info("file info",
 		zap.Any("info", song),
+		zap.Any("warnings", warnings),
 	)
 }
