@@ -53,9 +53,12 @@ type inserter interface {
 
 func dispatch(l *zap.Logger, inserter inserter, songs <-chan usdx.Song, wg *sync.WaitGroup) {
 	for song := range songs {
+		// TODO: fix me (encoding problems)
+		song.Notes = nil
 		err := inserter.InsertSong(song)
 		if err != nil {
 			l.Warn("error inserting song into database",
+				zap.Any("song", song),
 				zap.Error(err),
 			)
 		}
